@@ -1,0 +1,55 @@
+<h1 class="center-align">Welcome to the Battle Dome!</h1>
+
+<div class="row">
+<form class="col s12">
+  <div class="row">
+    <div class="input-field col s6" ng-show="self.trait">
+      <input type="text" class="validate" ng-model="self.name">
+      <label for="first_name">Your Bot Name</label>
+    </div>
+    <div class="input-field col s6" ng-show="foe.trait">
+      <input type="text" class="validate" ng-model="foe.name">
+      <label for="last_name">Enemy Bot Name</label>
+    </div>
+  </div>
+  <div class="row">
+      <div class="input-field col s6">
+	    <select ng-model="selfBot" ng-change="setSelfBot()">
+	      <optgroup label="Cyber Punks">
+	        <option value="Hacker">Hacker</option>
+	        <option value="Technomancer">Technomancer</option>
+	      </optgroup>
+	      <optgroup label="Cyborgs">
+	        <option value="ProtoSoldier">Proto Soldier</option>
+	        <option value="CyberAssassin">Cyber Assassin</option>
+	      </optgroup>
+	      <optgroup label="Andrioids">
+	        <option value="PyroDroid">Pyro-Droid</option>
+	        <option value="D18Tank">D18-Tank</option>
+	      </optgroup>
+	    </select>
+	    <label>Select a Bot</label>
+	  </div>
+	  <div class="input-field col s6">
+	    <select ng-model="foeBot" ng-change="setFoeBot()">
+	      <optgroup label="Cyber Punks">
+	        <option value="Hacker">Hacker</option>
+	        <option value="Technomancer">Technomancer</option>
+	      </optgroup>
+	      <optgroup label="Cyborgs">
+	        <option value="ProtoSoldier">Proto Soldier</option>
+	        <option value="CyberAssassin">Cyber Assassin</option>
+	      </optgroup>
+	      <optgroup label="Andrioids">
+	        <option value="PyroDroid">Pyro-Droid</option>
+	        <option value="D18Tank">D18-Tank</option>
+	      </optgroup>
+	    </select>
+	    <label>Select a Bot</label>
+	  </div>
+	</div>
+	<div class="row center-align">
+		<a class="waves-effect waves-red btn btn-flat" ng-click="setBattleBots()" href="#!/battle">BATTLE!!!</a>
+	</div>
+</form>
+</div>
