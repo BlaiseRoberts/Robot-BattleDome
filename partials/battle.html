@@ -23,10 +23,16 @@
 
 <div class="row">
 	<div class="col s6">
-		<p class="nameplate">{{self.name}} the {{self.type}}, {{self.model}} with {{self.trait}}</p>
+		<ul class="collection with-header">
+        	<li class="collection-header"><p class="nameplate">{{self.name}} the {{self.model}}</p></li>
+        	<li class="collection-item">{{self.type}} with {{self.trait}}</li>
+    	</ul>
 	</div>
-	<div class="col s6">
-		<p class="nameplate right-align">{{foe.name}} the {{foe.type}}, {{foe.model}} with {{foe.trait}}</p>
+	<div class="col s6 right-align">
+		<ul class="collection with-header">
+        	<li class="collection-header"><p class="nameplate">{{foe.name}} the {{foe.model}}</p></li>
+        	<li class="collection-item">{{foe.type}} with {{foe.trait}}</li>
+    	</ul>
 	</div>
 </div>
 <div class="row">
@@ -50,17 +56,18 @@
 	</div>
 </div>
 <div class="row battlefield">
-	<div class="col s4 right-align">
-		<img id="playerPic" src="images/Technomancer.png">
+	<div class="col s6 m6 l4 right-align">
+		<img id="playerPic" src="{{self.image}}">
 	</div>
-	<div class="col s4">
-		<p>Combat Log:</p>
+	<div class="col l4 hide-on-med-and-down">
+		<p>Round {{self.gameCount}} Combat Log:</p>
 		<div id="combat-log" class="card-panel hoverable deep-purple lighten-4"></div>
 	</div>
-	<div class="col s4">
-		<img id="monsterPic" src="images/Technomancer.png">
+	<div class="col s6 m6 l4">
+		<img id="monsterPic" src="{{foe.image}}">
 	</div>
 </div>
 <div class="row center-align">
 	<a id="attack-button" class="deep-purple darken-3 waves-effect waves-light btn" ng-click="makeAttack()">Attack!!</a>
+	<a class="light-blue darken-3 waves-effect waves-light btn" ng-show="haveSpecial" ng-click="useSpecial()">Special Trait</a>
 </div>

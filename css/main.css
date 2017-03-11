@@ -2,17 +2,14 @@ img {
   height: 15em; }
 
 .nameplate {
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  margin: .1em; }
 
 #combat-log {
   max-height: 10em;
   overflow: scroll; }
 
-.left-toast {
-  margin-right: 55em; }
-
 .right-toast {
-  margin-right: 4em;
   margin-top: 15em; }
 
 /*# sourceMappingURL=main.css.map */
