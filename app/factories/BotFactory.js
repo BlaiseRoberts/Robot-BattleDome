@@ -16,17 +16,17 @@ let Robot = {
 let CyberPunk = Object.create(Robot);
 CyberPunk.trait = "Electro-Cloak";
 CyberPunk.type = "CyberPunk";
-CyberPunk.name = "Kim K";
+CyberPunk.name = "Kim";
 
 let Cyborg = Object.create(Robot);
 Cyborg.trait = "Nano Recovery";
 Cyborg.type = "Cyborg";
-Cyborg.name = "Kourtney K";
+Cyborg.name = "Kourtney";
 
 let Android = Object.create(Robot);
 Android.trait = "Alloy Armor";
 Android.type = "Android";
-Android.name = "Khloé K";
+Android.name = "Khloé";
 
 
 ///////////////

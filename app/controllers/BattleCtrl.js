@@ -190,13 +190,42 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 	};
 
 
+
+//////////////////////
+//////Rock Paper Siccors... perhaps
+//////////////////////
+	$scope.laserAttack = ()=>{
+		if (turnSelf % 4 === 0){
+			$scope.haveSpecial = true;
+		}
+		let foeRandomAttack = Math.floor(Math.random()*3);
+		let attackType = 0;
+		attackFoe();
+	};
+	$scope.reflectAttack = ()=>{
+		if (turnSelf % 4 === 0){
+			$scope.haveSpecial = true;
+		}
+		let foeRandomAttack = Math.floor(Math.random()*3);
+		let attackType = 1;
+		attackFoe();
+	};
+	$scope.meleeAttack = ()=>{
+		if (turnSelf % 4 === 0){
+			$scope.haveSpecial = true;
+		}
+		let foeRandomAttack = Math.floor(Math.random()*3);
+		let attackType = 2;
+		attackFoe();
+	};
+
+
 ////////////////////////////////////
 /////////////////////Button Functions
 ////////////////////////////////////
 	var turnSelf = 1;
 	var turnFoe = 1; 
-	$scope.haveSpecial = false;
-
+	$scope.haveSpecial = true;
 
 	$scope.makeAttack = ()=>{
 		if (turnSelf % 4 === 0){
@@ -208,7 +237,6 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		specialAttack();
 		$scope.haveSpecial = false;
 	};
-
 	$scope.continue = ()=>{
 		selectSound.play();
 		$scope.self.gameCount++;
@@ -218,7 +246,6 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		$('#youWin').modal('close');
 		$route.reload();
 	};
-
 	$scope.sound= ()=>{
 		selectSound.play();
 	};
