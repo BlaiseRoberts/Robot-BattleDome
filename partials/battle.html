@@ -3,7 +3,7 @@
 <div id="youWin" class="modal">
 	<div class="modal-content">
 	  <h4>Victory</h4>
-	  <p>You've crushed your foe!</p>
+	  <p>You've crushed your foe, {{foe.name}}!  {{self.name}} Wins!!!</p>
 	</div>
 	<div class="modal-footer">
 	  <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="continue()">Continue</a>
@@ -13,10 +13,10 @@
 <div id="youLose" class="modal">
 	<div class="modal-content">
 	  <h4>Defeat</h4>
-	  <p>You've been scrapped!</p>
+	  <p>You've been scrapped by {{foe.name}}!  {{self.name}} Loses.</p>
 	</div>
 	<div class="modal-footer">
-	  <a href="#!/" class="modal-action modal-close waves-effect waves-green btn-flat">Try Again</a>
+	  <a href="#!/" ng-click="sound()" class="modal-action modal-close waves-effect waves-green btn-flat">Try Again</a>
 	</div>
 </div>
 								<!-- Content -->
@@ -26,12 +26,14 @@
 		<ul class="collection with-header">
         	<li class="collection-header"><p class="nameplate">{{self.name}} the {{self.model}}</p></li>
         	<li class="collection-item">{{self.type}} with {{self.trait}}</li>
+        	<li class="collection-item">Attack Damage:  {{self.minDamage}}-{{self.maxDamage}}</li>
     	</ul>
 	</div>
 	<div class="col s6 right-align">
 		<ul class="collection with-header">
         	<li class="collection-header"><p class="nameplate">{{foe.name}} the {{foe.model}}</p></li>
         	<li class="collection-item">{{foe.type}} with {{foe.trait}}</li>
+        	<li class="collection-item">Attack Damage:  {{foe.minDamage}}-{{foe.maxDamage}}</li>
     	</ul>
 	</div>
 </div>

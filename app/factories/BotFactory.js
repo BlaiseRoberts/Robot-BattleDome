@@ -16,14 +16,17 @@ let Robot = {
 let CyberPunk = Object.create(Robot);
 CyberPunk.trait = "Electro-Cloak";
 CyberPunk.type = "CyberPunk";
+CyberPunk.name = "Kim K";
 
 let Cyborg = Object.create(Robot);
 Cyborg.trait = "Nano Recovery";
 Cyborg.type = "Cyborg";
+Cyborg.name = "Kourtney K";
 
 let Android = Object.create(Robot);
 Android.trait = "Alloy Armor";
 Android.type = "Android";
+Android.name = "Khloé K";
 
 
 ///////////////
@@ -79,6 +82,32 @@ Bot.D18Tank.minDamage = 0;
 Bot.D18Tank.maxDamage = 70;
 Bot.D18Tank.model = "D18-Tank";
 Bot.D18Tank.image = "images/D18_Tank.jpg";
+
+
+//Bosses
+Bot.MEG = Object.create(Android);
+Bot.MEG.minHealth = 720;
+Bot.MEG.maxHealth = 750;
+Bot.MEG.minDamage = 100;
+Bot.MEG.maxDamage = 180;
+Bot.MEG.model = "M.E.G.";
+Bot.MEG.image = "images/MEG.jpg";
+
+Bot.XZ3000 = Object.create(Cyborg);
+Bot.XZ3000.minHealth = 1680;
+Bot.XZ3000.maxHealth = 2030;
+Bot.XZ3000.minDamage = 50;
+Bot.XZ3000.maxDamage = 150;
+Bot.XZ3000.model = "XZ-3000";
+Bot.XZ3000.image = "images/Gilbert.jpg";
+
+Bot.Machinist = Object.create(CyberPunk);
+Bot.Machinist.minHealth = 5080;
+Bot.Machinist.maxHealth = 5130;
+Bot.Machinist.minDamage = 540;
+Bot.Machinist.maxDamage = 670;
+Bot.Machinist.model = "Machinist";
+Bot.Machinist.image = "images/brenda.jpg";
 
 
 /////////////

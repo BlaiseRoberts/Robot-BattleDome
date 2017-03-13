@@ -6,10 +6,20 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 //Initalize Stuff
 /////////////////////
   $(document).ready(()=> {
-    $('.modal').modal();
+    $('.modal').modal({
+	      dismissible: false, // Modal can be dismissed by clicking outside of the modal
+	      opacity: 0.5, // Opacity of modal background
+	      inDuration: 300, // Transition in duration
+	      outDuration: 200, // Transition out duration
+	      startingTop: '4%', // Starting top style attribute
+	      endingTop: '10%' // Ending top style attribute
+	    }
+	  );
   });
 
-
+  let attackSound = new Audio("sound/attackLaser.wav");
+  let armorSound = new Audio("sound/Armor.wav");
+  let selectSound = new Audio("sound/selectSound.wav");
 	
 ////////////////////////////////////////////////
 //Set up Player and Foe
@@ -22,20 +32,51 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		let randomBots = ["Hacker", "Technomancer", "ProtoSoldier", "CyberAssassin", "BattleDroid", "D18Tank"];
 		let botIndex = Math.floor(Math.random()*6);
 		$scope.foe = Object.create(BotFactory.getBot(randomBots[botIndex]));
-		let randomNames = ["Andrew", "Roxas", "Whitney", "Brenda", "Meg", "Gilbert"];
-		let nameIndex = Math.floor(Math.random()*6);
+		let randomNames = ["Andrew", "Roxas", "Whitney", "Sarah", "Austin", "Evan", "Mak"];
+		let nameIndex = Math.floor(Math.random()*7);
 		$scope.foe.name = randomNames[nameIndex];
 	}
 
+	//Add Bosses every 5 levels
+	if ($scope.self.gameCount === 5){
+		$scope.foe = Object.create(BotFactory.getBot("MEG"));
+		$scope.foe.name = "Lady Ducharme";
+		Materialize.toast('Here comes the first Boss!!!!!', 4000, 'amber accent-3 right-toast');
+
+	}
+	if ($scope.self.gameCount === 10){
+		$scope.foe = Object.create(BotFactory.getBot("XZ3000"));
+		$scope.foe.name = "Gilbert";
+		Materialize.toast('Here comes the Second Boss!!!!!', 4000, 'amber accent-3 right-toast');
+
+	}
+	if ($scope.self.gameCount === 15){
+		$scope.foe = Object.create(BotFactory.getBot("Machinist"));
+		$scope.foe.name = "Chief Brenda";
+		Materialize.toast('You will lose to the LAST BOSS!!!!!', 4000, 'amber accent-3 right-toast');
+	}
+
 	//Add lvls to Player and Foe
-	$scope.self.minHealth += $scope.self.gameCount * 10;
-	$scope.self.maxHealth += $scope.self.gameCount * 10;
+	$scope.self.minHealth += $scope.self.gameCount * 30;
+	$scope.self.maxHealth += $scope.self.gameCount * 30;
 	$scope.self.minDamage += $scope.self.gameCount * 10;
 	$scope.self.maxDamage += $scope.self.gameCount * 10;
-	$scope.foe.minHealth += $scope.self.gameCount * 7;
-	$scope.foe.maxHealth += $scope.self.gameCount * 7;
+	$scope.foe.minHealth += $scope.self.gameCount * 17;
+	$scope.foe.maxHealth += $scope.self.gameCount * 17;
 	$scope.foe.minDamage += $scope.self.gameCount * 7;
-	$scope.foe.maxDamage += $scope.self.gameCount * 7;
+	$scope.foe.maxDamage += $scope.self.gameCount * 7;	
+	if($scope.self.gameCount > 5){
+		$scope.foe.minHealth += $scope.self.gameCount * 45;
+		$scope.foe.maxHealth += $scope.self.gameCount * 45;
+		$scope.foe.minDamage += $scope.self.gameCount * 18;
+		$scope.foe.maxDamage += $scope.self.gameCount * 22;	
+	}
+	if($scope.self.gameCount > 10){
+		$scope.foe.minHealth += $scope.self.gameCount * 45;
+		$scope.foe.maxHealth += $scope.self.gameCount * 45;
+		$scope.foe.minDamage += $scope.self.gameCount * 18;
+		$scope.foe.maxDamage += $scope.self.gameCount * 22;	
+	}
 
 
 
@@ -61,6 +102,7 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 /////////Attack Functions
 ////////////////////////////////////////
 	let attackFoe = ()=>{
+		attackSound.play();
 		let damage = getRandomInt($scope.self.minDamage, $scope.self.maxDamage);
 		$scope.foe.health -= damage;
 		$scope.foe.health = Math.max(0, $scope.foe.health);
@@ -78,6 +120,7 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 
 	let specialAttack = ()=>{
 		if ($scope.self.trait === "Electro-Cloak"){
+			armorSound.play();
 			let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name} activates their Electro-Cloak and scrables systems, vanishing.</p>`;
 			$('#combat-log').prepend(combatLogText);
 			turnSelf++;
@@ -95,15 +138,17 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 				$('#youWin').modal('open');
 			}
 		} if ($scope.self.trait === "Nano Recovery"){
+			armorSound.play();
 			let healing = (getRandomInt($scope.self.minDamage, $scope.self.maxDamage)+50);
 			$scope.self.health += healing;
 			$scope.selfHealth = ($scope.self.health / selfTotalHealth)*100;
-			Materialize.toast('+'+healing, 2000, 'green darken-2 rounded left-toast');
+			Materialize.toast('+'+healing, 2000, 'green darken-2 rounded right-toast');
 			let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name} regenerates it's flesh with Nano Recovery bots for ${healing} health!</p>`;
 			$('#combat-log').prepend(combatLogText);
 			turnSelf++;
 			window.setTimeout(foeAttacks, 500);
 		} if ($scope.self.trait === "Alloy Armor"){
+			armorSound.play();
 			$scope.hasArmor = true;
 			$scope.armorTurn = turnSelf;
 			let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name}'s Alloy Armor is strengthened for the next 2 turns!</p>`;
@@ -117,6 +162,7 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 	$scope.hasArmor = false;
 
 	let foeAttacks = ()=>{
+		attackSound.play();
 		let damage = getRandomInt($scope.foe.minDamage, $scope.foe.maxDamage);
 		if ($scope.armorTurn === turnSelf-4){
 			$scope.hasArmor = false;
@@ -153,10 +199,10 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 
 
 	$scope.makeAttack = ()=>{
-		attackFoe();
-		if (turnSelf % 5 === 0){
+		if (turnSelf % 4 === 0){
 			$scope.haveSpecial = true;
 		}
+		attackFoe();
 	};
 	$scope.useSpecial = ()=>{
 		specialAttack();
@@ -164,12 +210,17 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 	};
 
 	$scope.continue = ()=>{
+		selectSound.play();
 		$scope.self.gameCount++;
 		$scope.foe.gameCount++;
 		GameFactory.setSelf($scope.self);
 		GameFactory.setFoe($scope.foe);
 		$('#youWin').modal('close');
 		$route.reload();
+	};
+
+	$scope.sound= ()=>{
+		selectSound.play();
 	};
 
 
