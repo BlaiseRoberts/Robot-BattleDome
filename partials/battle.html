@@ -1,0 +1,75 @@
+								<!-- Modals -->
+
+<div id="youWin" class="modal">
+	<div class="modal-content">
+	  <h4>Victory</h4>
+	  <p>You've crushed your foe, {{foe.name}}!  {{self.name}} Wins!!!</p>
+	</div>
+	<div class="modal-footer">
+	  <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="continue()">Continue</a>
+	</div>
+</div>
+
+<div id="youLose" class="modal">
+	<div class="modal-content">
+	  <h4>Defeat</h4>
+	  <p>You've been scrapped by {{foe.name}}!  {{self.name}} Loses.</p>
+	</div>
+	<div class="modal-footer">
+	  <a href="#!/" ng-click="sound()" class="modal-action modal-close waves-effect waves-green btn-flat">Try Again</a>
+	</div>
+</div>
+								<!-- Content -->
+
+<div class="row">
+	<div class="col s6">
+		<ul class="collection with-header">
+        	<li class="collection-header"><p class="nameplate">{{self.name}} the {{self.model}}</p></li>
+        	<li class="collection-item">{{self.type}} with {{self.trait}}</li>
+        	<li class="collection-item">Attack Damage:  {{self.minDamage}}-{{self.maxDamage}}</li>
+    	</ul>
+	</div>
+	<div class="col s6 right-align">
+		<ul class="collection with-header">
+        	<li class="collection-header"><p class="nameplate">{{foe.name}} the {{foe.model}}</p></li>
+        	<li class="collection-item">{{foe.type}} with {{foe.trait}}</li>
+        	<li class="collection-item">Attack Damage:  {{foe.minDamage}}-{{foe.maxDamage}}</li>
+    	</ul>
+	</div>
+</div>
+<div class="row">
+	<div class="col s5">
+		<div class="progress left-align">
+		  <div class="determinate" style="width: {{selfHealth}}%"></div>
+		</div>
+	</div>
+	<div class="col s5 offset-s2">
+		<div class="progress right-align">
+		  <div class="determinate" style="width: {{foeHealth}}%"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s4">
+		<p class="left-align">{{self.health}}</p>
+	</div>
+	<div class="col s4 offset-s4">
+		<p class="right-align">{{foe.health}}</p>
+	</div>
+</div>
+<div class="row battlefield">
+	<div class="col s6 m6 l4 right-align">
+		<img id="playerPic" src="{{self.image}}">
+	</div>
+	<div class="col l4 hide-on-med-and-down">
+		<p>Round {{self.gameCount}} Combat Log:</p>
+		<div id="combat-log" class="card-panel hoverable deep-purple lighten-4"></div>
+	</div>
+	<div class="col s6 m6 l4">
+		<img id="monsterPic" src="{{foe.image}}">
+	</div>
+</div>
+<div class="row center-align">
+	<a id="attack-button" class="deep-purple darken-3 waves-effect waves-light btn" ng-click="makeAttack()">Attack!!</a>
+	<a class="light-blue darken-3 waves-effect waves-light btn" ng-show="haveSpecial" ng-click="useSpecial()">Special Trait</a>
+</div>
