@@ -2,25 +2,30 @@
 <html ng-app="BattleBotApp">
 <head>
 	<title>Battle Bots!</title>
-	<link rel="stylesheet" type="text/css" href="dist/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body class="container">
 	
 	<div ng-view></div>
 
-					<!-- Custom Bg-Music by Blaise Roberts -->
-	<audio autoplay loop controls>
-	  <source src="sound/bot_bg.m4a" type="audio/aac">
-	  Your browser does not support the audio tag.
-	</audio>
-
+			
+	<div class="row center">
+						<!-- Custom Bg-Music by Blaise Roberts -->
+		<audio autoplay loop controls>
+		  <source src="sound/bot_bg.m4a" type="audio/aac">
+		  Your browser does not support the audio tag.
+		</audio>
+	</div>
 
 	<!-- Dependencies -->
-	<script type="text/javascript" src="dist/jquery.min.js"></script>
-	<script type="text/javascript" src="dist/js/materialize.min.js"></script>
-	<script type="text/javascript" src="/lib/node_modules/angular/angular.min.js"></script>
-	<script type="text/javascript" src="/lib/node_modules/angular-route/angular-route.min.js"></script>
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js"></script>
 
 
 	<script type="text/javascript" src="app/app.js"></script>	

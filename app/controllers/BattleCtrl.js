@@ -101,8 +101,11 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 ////////////////////////////////////////
 /////////Attack Functions
 ////////////////////////////////////////
+	$scope.hasArmor = false;
+
 	let attackFoe = ()=>{
-		attackSound.play();
+		let sound = attackSound.cloneNode()
+		sound.play();
 		let damage = getRandomInt($scope.self.minDamage, $scope.self.maxDamage);
 		$scope.foe.health -= damage;
 		$scope.foe.health = Math.max(0, $scope.foe.health);
@@ -118,9 +121,47 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		window.setTimeout(foeAttacks, 500);
 	};
 
+	let bigHit = ()=>{
+		let sound = attackSound.cloneNode()
+		sound.play();
+		let damage = getRandomInt($scope.self.minDamage, $scope.self.maxDamage)*1.5;
+		$scope.foe.health -= damage;
+		$scope.foe.health = Math.max(0, $scope.foe.health);
+		$scope.foeHealth = ($scope.foe.health / foeTotalHealth)*100;
+		Materialize.toast('-'+damage+' dmg', 2000, 'blue-grey darken-2 rounded right-toast');
+		let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name} made an oppertune attacked, dealing ${damage} damage!</p>`;
+		$('#combat-log').prepend(combatLogText);
+		turnSelf++;
+		turnFoe++;
+		if($scope.foe.health === 0){
+			$('#youWin').modal('open');
+			return;
+		}
+	};
+
+	let bigMiss = ()=>{
+		let sound = attackSound.cloneNode()
+		sound.play();
+		let damage = getRandomInt($scope.foe.minDamage, $scope.foe.maxDamage)*1.5;
+		$scope.self.health -= damage;
+		$scope.self.health = Math.max(0, $scope.self.health);
+		$scope.selfHealth = ($scope.self.health / selfTotalHealth)*100;
+		Materialize.toast('-'+damage+' dmg', 2000, 'rounded red darken-2 left-toast');
+		let combatLogText = `<p>Turn ${turnFoe}:  ${$scope.foe.name} made an oppertune attacked, dealing ${damage} damage!</p>`;
+		$('#combat-log').prepend(combatLogText);
+		turnSelf++;
+		turnFoe++;
+		if($scope.foe.health === 0){
+			$('#youWin').modal('open');
+			return;
+		}
+	};
+
+
 	let specialAttack = ()=>{
 		if ($scope.self.trait === "Electro-Cloak"){
-			armorSound.play();
+			let sound = armorSound.cloneNode()
+			sound.play();
 			let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name} activates their Electro-Cloak and scrables systems, vanishing.</p>`;
 			$('#combat-log').prepend(combatLogText);
 			turnSelf++;
@@ -138,7 +179,8 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 				$('#youWin').modal('open');
 			}
 		} if ($scope.self.trait === "Nano Recovery"){
-			armorSound.play();
+			let sound = armorSound.cloneNode()
+			sound.play();
 			let healing = (getRandomInt($scope.self.minDamage, $scope.self.maxDamage)+50);
 			$scope.self.health += healing;
 			$scope.selfHealth = ($scope.self.health / selfTotalHealth)*100;
@@ -148,7 +190,8 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 			turnSelf++;
 			window.setTimeout(foeAttacks, 500);
 		} if ($scope.self.trait === "Alloy Armor"){
-			armorSound.play();
+			let sound = armorSound.cloneNode()
+			sound.play();
 			$scope.hasArmor = true;
 			$scope.armorTurn = turnSelf;
 			let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name}'s Alloy Armor is strengthened for the next 2 turns!</p>`;
@@ -159,10 +202,10 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 	};
 
 
-	$scope.hasArmor = false;
 
 	let foeAttacks = ()=>{
-		attackSound.play();
+		let sound = attackSound.cloneNode()
+		sound.play();
 		let damage = getRandomInt($scope.foe.minDamage, $scope.foe.maxDamage);
 		if ($scope.armorTurn === turnSelf-4){
 			$scope.hasArmor = false;
@@ -189,6 +232,13 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		}
 	};
 
+	let wait = ()=>{
+		let combatLogText = `<p>Turn ${turnSelf}:  ${$scope.self.name} and ${$scope.foe.name} are both playing defense.</p>`;
+		$('#combat-log').prepend(combatLogText);
+		turnSelf++;
+		turnFoe++;
+	}
+
 
 
 //////////////////////
@@ -200,7 +250,15 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		}
 		let foeRandomAttack = Math.floor(Math.random()*3);
 		let attackType = 0;
-		attackFoe();
+		if (attackType === foeRandomAttack){
+			attackFoe();
+		}
+		if (foeRandomAttack === 1){
+			bigMiss()
+		}
+		if (foeRandomAttack === 2){
+			bigHit()
+		}
 	};
 	$scope.reflectAttack = ()=>{
 		if (turnSelf % 4 === 0){
@@ -208,7 +266,15 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		}
 		let foeRandomAttack = Math.floor(Math.random()*3);
 		let attackType = 1;
-		attackFoe();
+		if (attackType === foeRandomAttack){
+			wait();
+		}
+		if (foeRandomAttack === 2){
+			bigMiss()
+		}
+		if (foeRandomAttack === 0){
+			bigHit()
+		}
 	};
 	$scope.meleeAttack = ()=>{
 		if (turnSelf % 4 === 0){
@@ -216,7 +282,15 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		}
 		let foeRandomAttack = Math.floor(Math.random()*3);
 		let attackType = 2;
-		attackFoe();
+		if (attackType === foeRandomAttack){
+			attackFoe();
+		}
+		if (foeRandomAttack === 0){
+			bigMiss()
+		}
+		if (foeRandomAttack === 1){
+			bigHit()
+		}
 	};
 
 
@@ -238,7 +312,8 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		$scope.haveSpecial = false;
 	};
 	$scope.continue = ()=>{
-		selectSound.play();
+		let sound = selectSound.cloneNode();
+		sound.play();
 		$scope.self.gameCount++;
 		$scope.foe.gameCount++;
 		GameFactory.setSelf($scope.self);
@@ -247,7 +322,8 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		$route.reload();
 	};
 	$scope.sound= ()=>{
-		selectSound.play();
+		let sound = selectSound.cloneNode();
+		sound.play();
 	};
 
 

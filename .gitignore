@@ -1,2 +1,4 @@
 lib/.sass-cache
 lib/node_modules
+.DS_Store
+/dist
