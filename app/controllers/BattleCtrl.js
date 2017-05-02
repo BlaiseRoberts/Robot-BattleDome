@@ -115,7 +115,7 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		$('#combat-log').prepend(combatLogText);
 		turnSelf++;
 		if($scope.foe.health === 0){
-			$('#youWin').modal('open');
+			$('#youLose').modal('open');
 			return;
 		}
 		window.setTimeout(foeAttacks, 500);
@@ -151,7 +151,7 @@ app.controller('BattleCtrl', function ($scope, GameFactory, $route, BotFactory) 
 		$('#combat-log').prepend(combatLogText);
 		turnSelf++;
 		turnFoe++;
-		if($scope.foe.health === 0){
+		if($scope.self.health === 0){
 			$('#youWin').modal('open');
 			return;
 		}
